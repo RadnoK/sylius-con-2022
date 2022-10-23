@@ -2,8 +2,16 @@ monolog:
     handlers:
         main:
             type: stream
-            path: "%kernel.logs_dir%/%kernel.environment%.log"
+            path: "%kernel.logs_dir%/main_%kernel.environment%.log"
             level: debug
+        command_bus:
+            type: stream
+            path: "%kernel.logs_dir%/command_bus_%kernel.environment%.log"
+            level: info
+        query_bus:
+            type: stream
+            path: "%kernel.logs_dir%/query_bus_%kernel.environment%.log"
+            level: info
         firephp:
             type: firephp
             level: info

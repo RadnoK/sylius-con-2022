@@ -1,0 +1,1690 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+"A base attribute interface shared by all attribute types. An attribute represents a type of value that can be assigned to a product."
+interface Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value defining a specific attribute."
+interface AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: Attribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [AttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a translated attribute value for language."
+interface AttributeValueTranslation {
+    language: Language!
+}
+
+"A base product interface shared by all product types."
+interface Product {
+    "The list of all attributes and their values assigned to a `Product`."
+    attributeList(
+        "Provides elements after the specified cursor."
+        after: String,
+        codes: [AttributeCode!],
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): AttributeValueConnection
+    "The list of categories `Product` belongs to."
+    categoryList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): CategoryConnection
+    createdAt: DateTime!
+    editedAt: DateTime
+    sku: Sku!
+    template: Template!
+}
+
+"Represents a translated attribute value."
+interface TranslatedAttributeValue {
+    language: Language!
+}
+
+"Product grouped in `GroupingProduct`."
+union GroupedProductProduct = SimpleProduct | VariableProduct
+
+type AttributeConnection {
+    "Edges of the connection"
+    edges: [AttributeEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type AttributeCreateDatePayload {
+    attribute: DateAttribute!
+}
+
+type AttributeCreateFilePayload {
+    attribute: FileAttribute!
+}
+
+type AttributeCreateGalleryPayload {
+    attribute: GalleryAttribute!
+}
+
+type AttributeCreateImagePayload {
+    attribute: ImageAttribute!
+}
+
+type AttributeCreateMultiSelectPayload {
+    attribute: MultiSelectAttribute!
+}
+
+type AttributeCreateNumericPayload {
+    attribute: NumericAttribute!
+}
+
+type AttributeCreatePricePayload {
+    attribute: PriceAttribute!
+}
+
+type AttributeCreateProductRelationPayload {
+    attribute: ProductRelationAttribute!
+}
+
+type AttributeCreateSelectPayload {
+    attribute: SelectAttribute!
+}
+
+type AttributeCreateTextPayload {
+    attribute: TextAttribute!
+}
+
+type AttributeCreateTextareaPayload {
+    attribute: TextareaAttribute!
+}
+
+type AttributeCreateUnitPayload {
+    attribute: UnitAttribute!
+}
+
+type AttributeDateSetFormatPayload {
+    attribute: DateAttribute!
+}
+
+type AttributeDeletePayload {
+    code: AttributeCode!
+}
+
+type AttributeDeletedConnection {
+    "Edges of the connection"
+    edges: [AttributeDeletedEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type AttributeDeletedEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: AttributeCode!
+}
+
+type AttributeEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: Attribute!
+}
+
+type AttributeMultiSelectSetOptionsPayload {
+    attribute: MultiSelectAttribute!
+}
+
+type AttributePriceSetCurrencyPayload {
+    attribute: PriceAttribute!
+}
+
+type AttributeSelectSetOptionsPayload {
+    attribute: SelectAttribute!
+}
+
+type AttributeSetLabelPayload {
+    attribute: Attribute!
+}
+
+type AttributeSetNamePayload {
+    attribute: Attribute!
+}
+
+type AttributeTextareaSetRichEditPayload {
+    attribute: TextareaAttribute!
+}
+
+type AttributeUnitSetUnitPayload {
+    attribute: UnitAttribute!
+}
+
+type AttributeValueConnection {
+    "Edges of the connection"
+    edges: [AttributeValueEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type AttributeValueEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: AttributeValue!
+}
+
+"Represents a category."
+type Category {
+    code: CategoryCode!
+    name(languages: [Language!]): [TranslatedString!]!
+}
+
+type CategoryConnection {
+    "Edges of the connection"
+    edges: [CategoryEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type CategoryCreatePayload {
+    category: Category!
+}
+
+type CategoryDeletePayload {
+    code: CategoryCode
+}
+
+type CategoryDeletedConnection {
+    "Edges of the connection"
+    edges: [CategoryDeletedEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type CategoryDeletedEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: CategoryCode!
+}
+
+type CategoryEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: Category!
+}
+
+type CategorySetNamePayload {
+    category: Category!
+}
+
+"Represents a tree of categories."
+type CategoryTree {
+    "Provides a list of Categories on CategoryTree."
+    categoryTreeLeafList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 1000."
+        first: Int = 50
+    ): CategoryTreeLeafConnection!
+    code: CategoryTreeCode!
+    name(languages: [Language!]): [TranslatedString!]!
+}
+
+type CategoryTreeConnection {
+    "Edges of the connection"
+    edges: [CategoryTreeEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type CategoryTreeDeletedConnection {
+    "Edges of the connection"
+    edges: [CategoryTreeDeletedEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type CategoryTreeDeletedEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: String!
+}
+
+type CategoryTreeEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: CategoryTree!
+}
+
+"Represents a leaf (node) of category tree."
+type CategoryTreeLeaf {
+    category: Category!
+    parentCategory: Category
+}
+
+type CategoryTreeLeafConnection {
+    "Edges of the connection"
+    edges: [CategoryTreeLeafEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type CategoryTreeLeafEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: CategoryTreeLeaf!
+}
+
+"Represents a date."
+type DateAttribute implements Attribute {
+    code: AttributeCode!
+    format: DateFormat!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `DateAttribute`."
+type DateAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: DateAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [DateAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `DateAttribute`."
+type DateAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: String
+}
+
+"Represents a collection of multimedia files of any type."
+type FileAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `FileAttribute`."
+type FileAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: FileAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [FileAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `FileAttribute`."
+type FileAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: [Multimedia!]!
+}
+
+"Represents a collection of images."
+type GalleryAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `GalleryAttribute`."
+type GalleryAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: GalleryAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [GalleryAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `GalleryAttribute`."
+type GalleryAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: [Multimedia!]!
+}
+
+"Represents a product grouped in `GroupingProduct` in a specific quantity for the set."
+type GroupedProduct {
+    "Grouped product."
+    product: GroupedProductProduct!
+    "Quantity of a grouped product."
+    quantity: Int!
+}
+
+type GroupedProductConnection {
+    "Edges of the connection"
+    edges: [GroupedProductEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type GroupedProductEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: GroupedProduct!
+}
+
+"A product grouping other products. Can represent products like the ones with common features or promotional packages."
+type GroupingProduct implements Product {
+    "The list of all attributes and their values assigned to a `Product`."
+    attributeList(
+        "Provides elements after the specified cursor."
+        after: String,
+        codes: [AttributeCode!],
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): AttributeValueConnection
+    "The list of categories `Product` belongs to."
+    categoryList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): CategoryConnection
+    "Grouped products."
+    childrenList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): GroupedProductConnection
+    createdAt: DateTime!
+    editedAt: DateTime
+    sku: Sku!
+    template: Template!
+}
+
+"Represents an image."
+type ImageAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `ImageAttribute`."
+type ImageAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: ImageAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [ImageAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `ImageAttribute`."
+type ImageAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: Multimedia
+}
+
+type LanguageConnection {
+    "Edges of the connection"
+    edges: [LanguageEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type LanguageEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: Language!
+}
+
+"Represents a set of options allowing to pick one or more of them."
+type MultiSelectAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    options: [Option!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `MultiSelectAttribute`."
+type MultiSelectAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: MultiSelectAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [MultiSelectAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `MultiSelectAttribute`."
+type MultiSelectAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: [Option!]!
+}
+
+"Represents a multimedia file. The multimedia can be a text file, image, document file, etc."
+type Multimedia {
+    "Represents the alternate text for an image if it cannot be displayed."
+    alt(languages: [Language!]): [TranslatedString!]!
+    extension: String!
+    "Folder where multimedia is stored."
+    folder: MultimediaFolder
+    mime: String
+    name: MultimediaName!
+    path: MultimediaPath!
+    "File size in bytes."
+    size: Int!
+    "Represents the title tooltip value."
+    title(languages: [Language!]): [TranslatedString!]!
+    "URL to download binary multimedia file."
+    url: String!
+}
+
+"Represents a value of `FileAttribute` and `GalleryAttribute`."
+type MultimediaArrayAttributeValue implements TranslatedAttributeValue {
+    language: Language!
+    value: [Multimedia!]!
+}
+
+"Represents a value of `ImageAttribute`."
+type MultimediaAttributeValue implements TranslatedAttributeValue {
+    language: Language!
+    value: Multimedia
+}
+
+type MultimediaConnection {
+    "Edges of the connection"
+    edges: [MultimediaEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type MultimediaCreateInputPayload {
+    multimedia: Multimedia!
+}
+
+type MultimediaDeletePayload {
+    path: MultimediaPath!
+}
+
+type MultimediaEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: Multimedia!
+}
+
+"Represents a filesystem-like folder allowing to organize multimedia. Does not correspond to the physical file path or its URL."
+type MultimediaFolder {
+    name: MultimediaFolderName!
+}
+
+type MultimediaFolderConnection {
+    "Edges of the connection"
+    edges: [MultimediaFolderEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type MultimediaFolderEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: MultimediaFolder!
+}
+
+type MultimediaSetAltPayload {
+    multimedia: Multimedia!
+}
+
+type MultimediaSetNamePayload {
+    multimedia: Multimedia!
+}
+
+type MultimediaSetTitlePayload {
+    multimedia: Multimedia!
+}
+
+type Mutation {
+    "Creates a `DateAttribute`."
+    attributeCreateDate(input: AttributeCreateDateInput!): AttributeCreateDatePayload
+    "Creates a `FileAttribute`."
+    attributeCreateFile(input: AttributeCreateFileInput!): AttributeCreateFilePayload
+    "Creates a `GalleryAttribute`."
+    attributeCreateGallery(input: AttributeCreateGalleryInput!): AttributeCreateGalleryPayload
+    "Creates an `ImageAttribute`."
+    attributeCreateImage(input: AttributeCreateImageInput!): AttributeCreateImagePayload
+    "Creates a `MultiSelectAttribute`."
+    attributeCreateMultiSelect(input: AttributeCreateMultiSelectInput!): AttributeCreateMultiSelectPayload
+    "Creates a `NumericAttribute`."
+    attributeCreateNumeric(input: AttributeCreateNumericInput!): AttributeCreateNumericPayload
+    "Creates a `PriceAttribute`."
+    attributeCreatePrice(input: AttributeCreatePriceInput!): AttributeCreatePricePayload
+    "Creates a `ProductRelationAttribute`."
+    attributeCreateProductRelation(input: AttributeCreateProductRelationInput!): AttributeCreateProductRelationPayload
+    "Creates a `SelectAttribute`."
+    attributeCreateSelect(input: AttributeCreateSelectInput!): AttributeCreateSelectPayload
+    "Creates a `TextAttribute`."
+    attributeCreateText(input: AttributeCreateTextInput!): AttributeCreateTextPayload
+    "Creates a `TextareaAttribute`."
+    attributeCreateTextarea(input: AttributeCreateTextareaInput!): AttributeCreateTextareaPayload
+    "Creates an `UnitAttribute`."
+    attributeCreateUnit(input: AttributeCreateUnitInput!): AttributeCreateUnitPayload
+    "Sets a `DateAttribute` format."
+    attributeDateSetFormat(input: AttributeDateSetFormatInput!): AttributeDateSetFormatPayload
+    "Deletes an attribute."
+    attributeDelete(input: AttributeDeleteInput!): AttributeDeletePayload
+    "Sets a `MultiSelectAttribute` options."
+    attributeMultiSelectSetOptions(input: AttributeMultiSelectSetOptionsInput!): AttributeMultiSelectSetOptionsPayload
+    "Sets a `PriceAttribute` currency."
+    attributePriceSetCurrency(input: AttributePriceSetCurrencyInput!): AttributePriceSetCurrencyPayload
+    "Sets a `SelectAttribute` options."
+    attributeSelectSetOptions(input: AttributeSelectSetOptionsInput!): AttributeSelectSetOptionsPayload
+    "Sets an attribute label."
+    attributeSetLabel(input: AttributeSetLabelInput!): AttributeSetLabelPayload @deprecated(reason: "Use `attributeSetName` instead.")
+    "Sets an attribute name."
+    attributeSetName(input: AttributeSetNameInput!): AttributeSetNamePayload
+    "Sets a `TextareaAttribute` richEdit."
+    attributeTextareaSetRichEdit(input: AttributeTextareaSetRichEditInput!): AttributeTextareaSetRichEditPayload
+    "Sets an `UnitAttribute` unit."
+    attributeUnitSetUnit(input: AttributeUnitSetUnitInput!): AttributeUnitSetUnitPayload
+    "Creates a `Category`."
+    categoryCreate(input: CategoryCreateInput!): CategoryCreatePayload
+    "Deletes a `Category`."
+    categoryDelete(input: CategoryDeleteInput!): CategoryDeletePayload
+    "Sets a `Category` name."
+    categorySetName(input: CategorySetNameInput!): CategorySetNamePayload
+    "Creates a `Multimedia`."
+    multimediaCreate(input: MultimediaCreateInput!): MultimediaCreateInputPayload
+    "Deletes a `Multimedia`."
+    multimediaDelete(input: MultimediaDeleteInput!): MultimediaDeletePayload
+    "Sets a `Multimedia` alt."
+    multimediaSetAlt(input: MultimediaSetAltInput!): MultimediaSetAltPayload
+    "Sets a `Multimedia` name."
+    multimediaSetName(input: MultimediaSetNameInput!): MultimediaSetNamePayload
+    "Sets a `Multimedia` title."
+    multimediaSetTitle(input: MultimediaSetTitleInput!): MultimediaSetTitlePayload
+    "Adds a `DateAttribute` value translations to a product."
+    productAddAttributeValueTranslationsDate(input: ProductAddAttributeValueTranslationsDateInput!): ProductAddAttributeValueTranslationsDatePayload
+    "Adds a `FileAttribute` value translations to a product."
+    productAddAttributeValueTranslationsFile(input: ProductAddAttributeValueTranslationsFileInput!): ProductAddAttributeValueTranslationsFilePayload
+    "Adds a `GalleryAttribute` value translations to a product."
+    productAddAttributeValueTranslationsGallery(input: ProductAddAttributeValueTranslationsGalleryInput!): ProductAddAttributeValueTranslationsGalleryPayload
+    "Adds a `ImageAttribute` value translations to a product."
+    productAddAttributeValueTranslationsImage(input: ProductAddAttributeValueTranslationsImageInput!): ProductAddAttributeValueTranslationsImagePayload
+    "Adds a `MultiSelectAttribute` value translations to a product."
+    productAddAttributeValueTranslationsMultiSelect(input: ProductAddAttributeValueTranslationsMultiSelectInput!): ProductAddAttributeValueTranslationsMultiSelectPayload
+    "Adds a `NumericAttribute` value translations to a product."
+    productAddAttributeValueTranslationsNumeric(input: ProductAddAttributeValueTranslationsNumericInput!): ProductAddAttributeValueTranslationsNumericPayload
+    "Adds a `PriceAttribute` value translations to a product."
+    productAddAttributeValueTranslationsPrice(input: ProductAddAttributeValueTranslationsPriceInput!): ProductAddAttributeValueTranslationsPricePayload
+    "Adds a `ProductRelationAttribute` value translations to a product."
+    productAddAttributeValueTranslationsProductRelation(input: ProductAddAttributeValueTranslationsProductRelationInput!): ProductAddAttributeValueTranslationsProductRelationPayload
+    "Adds a `SelectAttribute` value translations to a product."
+    productAddAttributeValueTranslationsSelect(input: ProductAddAttributeValueTranslationsSelectInput!): ProductAddAttributeValueTranslationsSelectPayload
+    "Adds a `TextAttribute` value translations to a product."
+    productAddAttributeValueTranslationsText(input: ProductAddAttributeValueTranslationsTextInput!): ProductAddAttributeValueTranslationsTextPayload
+    "Adds a `TextareaAttribute` value translations to a product."
+    productAddAttributeValueTranslationsTextarea(input: ProductAddAttributeValueTranslationsTextareaInput!): ProductAddAttributeValueTranslationsTextareaPayload
+    "Adds a `UnitAttribute` value translations to a product."
+    productAddAttributeValueTranslationsUnit(input: ProductAddAttributeValueTranslationsUnitInput!): ProductAddAttributeValueTranslationsUnitPayload
+    "Adds a product to categories."
+    productAddCategories(input: ProductAddCategoriesInput!): ProductAddCategoriesPayload
+    "Creates a `GroupingProduct`."
+    productCreateGrouping(input: ProductCreateGroupingInput!): ProductCreateGroupingPayload
+    "Creates a `SimpleProduct`."
+    productCreateSimple(input: ProductCreateSimpleInput!): ProductCreateSimplePayload
+    "Creates a `VariableProduct`."
+    productCreateVariable(input: ProductCreateVariableInput!): ProductCreateVariablePayload
+    "Deletes a product."
+    productDelete(input: ProductDeleteInput!): ProductDeletePayload
+    "Deletes an attribute value translations from a product."
+    productDeleteAttributeValueTranslations(input: ProductDeleteAttributeValueTranslationsInput!): ProductDeleteAttributeValueTranslationsPayload
+    "Adds a child product to a `GroupingProduct`."
+    productGroupingAddChild(input: ProductGroupingAddChildInput!): ProductGroupingAddChildPayload
+    "Removes a child product from a `GroupingProduct`."
+    productGroupingRemoveChild(input: ProductGroupingRemoveChildInput!): ProductGroupingRemoveChildPayload
+    "Set a child product quantity of a `GroupingProduct`."
+    productGroupingSetChildQuantity(input: ProductGroupingSetChildQuantityInput!): ProductGroupingSetChildQuantityPayload
+    "Removes a product from categories."
+    productRemoveCategories(input: ProductRemoveCategoriesInput!): ProductRemoveCategoriesPayload
+    "Sets a product `Template`."
+    productSetTemplate(input: ProductSetTemplateInput!): ProductSetTemplatePayload
+    "Adds a variant product to a `VariableProduct`."
+    productVariableAddVariant(input: ProductVariableAddVariantInput!): ProductVariableAddVariantPayload
+    "Removes a variant product from a `VariableProduct`."
+    productVariableRemoveVariant(input: ProductVariableRemoveVariantInput!): ProductVariableRemoveVariantPayload
+    "Sets binding attributes to `VariableProduct`."
+    productVariableSetBindings(input: ProductVariableSetBindingsInput!): ProductVariableSetBindingsPayload
+}
+
+"Represents a value of `NumericAttribute`. Not attribute type matching name is purposeful - conflicts with already existing type."
+type NumberAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: NumericAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [NumericAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a number."
+type NumericAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `NumericAttribute`, `PriceAttribute` and `UnitAttribute`."
+type NumericAttributeValue implements TranslatedAttributeValue {
+    language: Language!
+    value: Float
+}
+
+"Represents a value translation of `NumericAttribute`."
+type NumericAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: Float
+}
+
+"Represents an option of a select and multi-select attribute."
+type Option {
+    code: OptionCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+    "When paginating forwards, the cursor to continue."
+    endCursor: String
+    "When paginating forwards, are there more items?"
+    hasNextPage: Boolean!
+    "When paginating backwards, are there more items?"
+    hasPreviousPage: Boolean!
+    "When paginating backwards, the cursor to continue."
+    startCursor: String
+}
+
+"Represents a positive price of a specific currency."
+type PriceAttribute implements Attribute {
+    code: AttributeCode!
+    currency: Currency!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `PriceAttribute`."
+type PriceAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: PriceAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [PriceAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `PriceAttribute`."
+type PriceAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: Float
+}
+
+type ProductAddAttributeValueTranslationsDatePayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsFilePayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsGalleryPayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsImagePayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsMultiSelectPayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsNumericPayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsPricePayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsProductRelationPayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsSelectPayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsTextPayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsTextareaPayload {
+    product: Product!
+}
+
+type ProductAddAttributeValueTranslationsUnitPayload {
+    product: Product!
+}
+
+type ProductAddCategoriesPayload {
+    product: Product!
+}
+
+"Represents a value of `ProductRelationAttribute`."
+type ProductArrayAttributeValue implements TranslatedAttributeValue {
+    language: Language!
+    value: [Product!]!
+}
+
+type ProductConnection {
+    "Edges of the connection"
+    edges: [ProductEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type ProductCreateGroupingPayload {
+    product: GroupingProduct!
+}
+
+type ProductCreateSimplePayload {
+    product: SimpleProduct!
+}
+
+type ProductCreateVariablePayload {
+    product: VariableProduct!
+}
+
+type ProductDeleteAttributeValueTranslationsPayload {
+    product: Product!
+}
+
+type ProductDeletePayload {
+    sku: Sku
+}
+
+type ProductDeletedConnection {
+    "Edges of the connection"
+    edges: [ProductDeletedEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type ProductDeletedEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: Sku!
+}
+
+type ProductEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: Product!
+}
+
+type ProductGroupingAddChildPayload {
+    product: GroupingProduct!
+}
+
+type ProductGroupingRemoveChildPayload {
+    product: GroupingProduct!
+}
+
+type ProductGroupingSetChildQuantityPayload {
+    product: GroupingProduct!
+}
+
+"Represents a relation to the collection of other products."
+type ProductRelationAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `ProductRelationAttribute`."
+type ProductRelationAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: ProductRelationAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [ProductRelationAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `ProductRelationAttribute`."
+type ProductRelationAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: [Product!]!
+}
+
+type ProductRemoveCategoriesPayload {
+    product: Product!
+}
+
+type ProductSetTemplatePayload {
+    product: Product!
+}
+
+type ProductVariableAddVariantPayload {
+    product: VariableProduct!
+}
+
+type ProductVariableRemoveVariantPayload {
+    product: VariableProduct!
+}
+
+type ProductVariableSetBindingsPayload {
+    product: VariableProduct!
+}
+
+type Query {
+    "Provides an Attribute identified by AttributeCode."
+    attribute(code: AttributeCode!): Attribute
+    "Provides a stream of Deleted Attributes AttributeCodes. Newest deleted AttributeCode is always at the end of the stream."
+    attributeDeletedStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): AttributeDeletedConnection
+    "Provides a stream of Attributes. Newest updated Attribute is always at the end of the stream."
+    attributeStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): AttributeConnection
+    "Provides a Category identified by CategoryCode."
+    category(code: CategoryCode!): Category
+    "Provides a stream of Deleted Categories CategoryCodes. Newest deleted CategoryCode is always at the end of the stream."
+    categoryDeletedStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): CategoryDeletedConnection
+    "Provides a stream of Categories. Newest updated Category is always at the end of the stream."
+    categoryStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): CategoryConnection
+    "Provides a CategoryTree identified by CategoryTreeCode."
+    categoryTree(code: CategoryTreeCode!): CategoryTree
+    "Provides a stream of Deleted Category Trees codes. Newest deleted code is always at the end of the stream."
+    categoryTreeDeletedStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): CategoryTreeDeletedConnection
+    "Provides a stream of Category Trees. Newest updated CategoryTree is always at the end of the stream."
+    categoryTreeStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): CategoryTreeConnection
+    "Provides a list of active Languages."
+    languageList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 1000."
+        first: Int = 50
+    ): LanguageConnection
+    "Provides a list of MultimediaFolder."
+    multimediaFolderList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 300."
+        first: Int = 50
+    ): MultimediaFolderConnection
+    "Provides a stream of Multimedia. Newest updated Multimedia is always at the end of the stream."
+    multimediaStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): MultimediaConnection
+    "Provides a Product identified by Sku."
+    product(sku: Sku!): Product
+    "Provides a stream of Deleted Products Skus. Newest deleted Sku is always at the end of the stream."
+    productDeletedStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): ProductDeletedConnection
+    "Provides a stream of Products. Newest updated Product is always at the end of the stream."
+    productStream(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 200."
+        first: Int = 50
+    ): ProductConnection
+    "Provides a list of Templates."
+    templateList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0 and higher than 100."
+        first: Int = 50
+    ): TemplateConnection
+}
+
+"Represents a set of options allowing to pick one of them."
+type SelectAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    options: [Option!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `SelectAttribute`."
+type SelectAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: SelectAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [SelectAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `SelectAttribute`."
+type SelectAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: Option
+}
+
+"A simple product."
+type SimpleProduct implements Product {
+    "The list of all attributes and their values assigned to a `Product`."
+    attributeList(
+        "Provides elements after the specified cursor."
+        after: String,
+        codes: [AttributeCode!],
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): AttributeValueConnection
+    "The list of categories `Product` belongs to."
+    categoryList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): CategoryConnection
+    createdAt: DateTime!
+    editedAt: DateTime
+    sku: Sku!
+    template: Template!
+}
+
+"Represents a value of `MultiSelectAttribute`."
+type StringArrayAttributeValue implements TranslatedAttributeValue {
+    language: Language!
+    value: [String!]!
+}
+
+"Represents a value of `DateAttribute`, `SelectAttribute`, `TextAttribute` and `TextareaAttribute`."
+type StringAttributeValue implements TranslatedAttributeValue {
+    language: Language!
+    value: String
+}
+
+"Represents a set of attributes specific for a market segment."
+type Template {
+    "The list of all attributes assigned to a `Template`."
+    attributeList: AttributeConnection!
+    code: TemplateCode!
+}
+
+type TemplateConnection {
+    "Edges of the connection"
+    edges: [TemplateEdge!]
+    "Page info of the connection"
+    pageInfo: PageInfo
+    "Total count of items in the connection."
+    totalCount: Int
+}
+
+type TemplateEdge {
+    "The edge cursor"
+    cursor: String!
+    "Node of the Edge"
+    node: Template!
+}
+
+"Represents a short text of up to 255 chars."
+type TextAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+}
+
+"Represents a value of `TextAttribute`."
+type TextAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: TextAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [TextAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `TextAttribute`."
+type TextAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: String
+}
+
+"Represents a text."
+type TextareaAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    richEdit: Boolean!
+    scope: AttributeScope!
+}
+
+"Represents a value of `TextareaAttribute`."
+type TextareaAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: TextareaAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [TextareaAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `TextareaAttribute`."
+type TextareaAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: String
+}
+
+"Represents a translated value."
+type TranslatedString {
+    language: Language!
+    value: String
+}
+
+"Represents a unit. Can be used to define specific scalar types like Meter."
+type Unit {
+    name: UnitName!
+    symbol: String!
+}
+
+"Represents a numeric scalar unit."
+type UnitAttribute implements Attribute {
+    code: AttributeCode!
+    label(languages: [Language!]): [TranslatedString!]! @deprecated(reason: "Use `name` instead.")
+    name(languages: [Language!]): [TranslatedString!]!
+    scope: AttributeScope!
+    unit: Unit!
+}
+
+"Represents a value of `UnitAttribute`."
+type UnitAttributeValue implements AttributeValue {
+    "Represents an attribute bonded to a value."
+    attribute: UnitAttribute!
+    "Represents an attribute value translations."
+    translations(languages: [Language!]): [UnitAttributeValueTranslation!]!
+    "Represents an attribute value."
+    valueTranslations(languages: [Language!]): [TranslatedAttributeValue!]! @deprecated(reason: "Use `translations` instead. Each attribute type get corresponding value type. Values of `SelectAttribute` and `MultiSelectAttribute` are returning entire `Option` instead of `OptionCode` key from now on.")
+}
+
+"Represents a value translation of `UnitAttribute`."
+type UnitAttributeValueTranslation implements AttributeValueTranslation {
+    language: Language!
+    value: Float
+}
+
+"A product representing multiple variants i.e. products of different sizes or colors."
+type VariableProduct implements Product {
+    "The list of all attributes and their values assigned to a `Product`."
+    attributeList(
+        "Provides elements after the specified cursor."
+        after: String,
+        codes: [AttributeCode!],
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): AttributeValueConnection
+    "A list of attributes by which variants are bonded."
+    bindings: [SelectAttribute!]!
+    "The list of categories `Product` belongs to."
+    categoryList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): CategoryConnection
+    createdAt: DateTime!
+    editedAt: DateTime
+    sku: Sku!
+    template: Template!
+    "Variants of the product."
+    variantList(
+        "Provides elements after the specified cursor."
+        after: String,
+        "Provides up to first `n` results. Value cannot be lesser than 0."
+        first: Int = 50
+    ): ProductConnection
+}
+
+"The `AttributeScope` enum type represents the behavior of language translation of `Attribute` values."
+enum AttributeScope {
+    "Value translation is the same in every language."
+    GLOBAL
+    "Value translation is set individually in every language."
+    LOCAL
+}
+
+"The `AttributeCode` scalar type represents a lowercased, alphanumerical, and '\\_' textual `Attribute` identifier of 1-128 chars of length. It cannot be 'id' or start with 'esa_'."
+scalar AttributeCode
+
+"The `CategoryCode` scalar type represents a lowercased, alphanumerical, and '_' textual `Category` identifier of 1-128 chars of length."
+scalar CategoryCode
+
+"The `CategoryTreeCode` scalar type represents a textual `CategoryTree` identifier of 1-128 chars of length."
+scalar CategoryTreeCode
+
+"The `Currency` scalar type represents a currency code in ISO 4217 format. Example: `PLN`."
+scalar Currency
+
+"The `DateFormat` scalar type represents a date formatted in one of: `yyyy-MM-dd` `yy-MM-dd` `dd.MM.yy` `dd.MM.yyyy` `MM/dd/yy` `MM/dd/yyyy` `MMMM dd, yyyy` `dd MMMM yyyy` `dd MMM yyyy`"
+scalar DateFormat
+
+"The `DateTime` scalar type represents an ISO 8601 date. Example: `2021-04-09T17:25:26+00:00`"
+scalar DateTime
+
+"The `Language` scalar type represents a 5 chars LCID language code. Example: `pl_PL`."
+scalar Language
+
+"The `MultimediaFolderName` scalar type represents an alphanumeric, '\\', '-' and '_' textual `MultimediaFolder` name of 1-255 chars of length."
+scalar MultimediaFolderName
+
+"The `MultimediaName` scalar type represents a not containing '/' textual `Multimedia` name of 1-128 chars of length."
+scalar MultimediaName
+
+"The `MultimediaPath` scalar type represents a textual combination of `MultimediaFolderName`, and `MultimediaName` joined with '/' `Multimedia` identifier pointing to its exact location."
+scalar MultimediaPath
+
+"The `OptionCode` scalar type represents an identifier in a single `Attribute` context of 1-128 chars of length."
+scalar OptionCode
+
+"The `Sku` scalar type represents a textual `Product` identifier of 1-255 chars of length."
+scalar Sku
+
+"The `TemplateCode` scalar type represents an identifier in a single `Template` context of 3-32 chars of length."
+scalar TemplateCode
+
+"The `UnitName` scalar type represents a textual `Unit` name of 1-255 chars of length."
+scalar UnitName
+
+input AttributeCreateDateInput {
+    code: AttributeCode!
+    format: DateFormat!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+}
+
+input AttributeCreateFileInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+}
+
+input AttributeCreateGalleryInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+}
+
+input AttributeCreateImageInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+}
+
+input AttributeCreateMultiSelectInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    options: [OptionInput!]!
+    scope: AttributeScope!
+}
+
+input AttributeCreateNumericInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+}
+
+input AttributeCreatePriceInput {
+    code: AttributeCode!
+    currency: Currency!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+}
+
+input AttributeCreateProductRelationInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+}
+
+input AttributeCreateSelectInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    options: [OptionInput!]!
+    scope: AttributeScope!
+}
+
+input AttributeCreateTextInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+}
+
+input AttributeCreateTextareaInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    richEdit: Boolean!
+    scope: AttributeScope!
+}
+
+input AttributeCreateUnitInput {
+    code: AttributeCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+    scope: AttributeScope!
+    unitName: UnitName!
+}
+
+input AttributeDateSetFormatInput {
+    code: AttributeCode!
+    format: DateFormat!
+}
+
+input AttributeDeleteInput {
+    code: AttributeCode!
+}
+
+input AttributeMultiSelectSetOptionsInput {
+    code: AttributeCode!
+    options: [OptionInput!]!
+}
+
+input AttributePriceSetCurrencyInput {
+    code: AttributeCode!
+    currency: Currency!
+}
+
+input AttributeSelectSetOptionsInput {
+    code: AttributeCode!
+    options: [OptionInput!]!
+}
+
+input AttributeSetLabelInput {
+    code: AttributeCode!
+    label: [TranslatedStringInput!]!
+}
+
+input AttributeSetNameInput {
+    code: AttributeCode!
+    name: [TranslatedStringInput!]!
+}
+
+input AttributeTextareaSetRichEditInput {
+    code: AttributeCode!
+    richEdit: Boolean!
+}
+
+input AttributeUnitSetUnitInput {
+    code: AttributeCode!
+    unitName: UnitName!
+}
+
+input CategoryCreateInput {
+    code: CategoryCode!
+    name: [TranslatedStringInput!]
+}
+
+input CategoryDeleteInput {
+    code: CategoryCode!
+}
+
+input CategorySetNameInput {
+    code: CategoryCode!
+    name: [TranslatedStringInput!]!
+}
+
+input DateValueTranslationInput {
+    language: Language
+    value: String!
+}
+
+input FileValueTranslationInput {
+    language: Language
+    value: [MultimediaPath!]!
+}
+
+input GalleryValueTranslationInput {
+    language: Language
+    value: [MultimediaPath!]!
+}
+
+input ImageValueTranslationInput {
+    language: Language
+    value: MultimediaPath!
+}
+
+input MultiSelectValueTranslationInput {
+    language: Language
+    value: [OptionCode!]!
+}
+
+input MultimediaCreateInput {
+    folderName: MultimediaFolderName
+    name: MultimediaName!
+}
+
+input MultimediaDeleteInput {
+    path: MultimediaPath!
+}
+
+input MultimediaSetAltInput {
+    alt: [TranslatedStringInput!]!
+    path: MultimediaPath!
+}
+
+input MultimediaSetNameInput {
+    name: MultimediaName!
+    path: MultimediaPath!
+}
+
+input MultimediaSetTitleInput {
+    path: MultimediaPath!
+    title: [TranslatedStringInput!]!
+}
+
+input NumericValueTranslationInput {
+    language: Language
+    value: Float!
+}
+
+input OptionInput {
+    code: OptionCode!
+    "Field is deprecated. Use `name` instead. `name` takes precedence if passed together."
+    label: [TranslatedStringInput!]
+    name: [TranslatedStringInput!]
+}
+
+input PriceValueTranslationInput {
+    language: Language
+    value: Float!
+}
+
+input ProductAddAttributeValueTranslationsDateInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [DateValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsFileInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [FileValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsGalleryInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [GalleryValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsImageInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [ImageValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsMultiSelectInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [MultiSelectValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsNumericInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [NumericValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsPriceInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [PriceValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsProductRelationInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [ProductRelationValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsSelectInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [SelectValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsTextInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [TextValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsTextareaInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [TextareaValueTranslationInput!]!
+}
+
+input ProductAddAttributeValueTranslationsUnitInput {
+    attributeCode: AttributeCode!
+    sku: Sku!
+    translations: [UnitValueTranslationInput!]!
+}
+
+input ProductAddCategoriesInput {
+    categoryCodes: [CategoryCode!]!
+    sku: Sku!
+}
+
+input ProductCreateGroupingInput {
+    categoryCodes: [CategoryCode!]
+    sku: Sku!
+    templateCode: TemplateCode!
+}
+
+input ProductCreateSimpleInput {
+    categoryCodes: [CategoryCode!]
+    sku: Sku!
+    templateCode: TemplateCode!
+}
+
+input ProductCreateVariableInput {
+    categoryCodes: [CategoryCode!]
+    sku: Sku!
+    templateCode: TemplateCode!
+}
+
+input ProductDeleteAttributeValueTranslationsInput {
+    attributeCode: AttributeCode!
+    languages: [Language!]
+    sku: Sku!
+}
+
+input ProductDeleteInput {
+    sku: Sku!
+}
+
+input ProductGroupingAddChildInput {
+    childSku: Sku!
+    quantity: Int
+    sku: Sku!
+}
+
+input ProductGroupingRemoveChildInput {
+    childSku: Sku!
+    sku: Sku!
+}
+
+input ProductGroupingSetChildQuantityInput {
+    childSku: Sku!
+    quantity: Int!
+    sku: Sku!
+}
+
+input ProductRelationValueTranslationInput {
+    language: Language
+    value: [Sku!]!
+}
+
+input ProductRemoveCategoriesInput {
+    categoryCodes: [CategoryCode!]!
+    sku: Sku!
+}
+
+input ProductSetTemplateInput {
+    sku: Sku!
+    template: TemplateCode!
+}
+
+input ProductVariableAddVariantInput {
+    sku: Sku!
+    variantSku: Sku!
+}
+
+input ProductVariableRemoveVariantInput {
+    sku: Sku!
+    variantSku: Sku!
+}
+
+input ProductVariableSetBindingsInput {
+    bindingCodes: [AttributeCode!]!
+    sku: Sku!
+}
+
+input SelectValueTranslationInput {
+    language: Language
+    value: OptionCode!
+}
+
+input TextValueTranslationInput {
+    language: Language
+    value: String!
+}
+
+input TextareaValueTranslationInput {
+    language: Language
+    value: String!
+}
+
+input TranslatedStringInput {
+    language: Language!
+    value: String!
+}
+
+input UnitValueTranslationInput {
+    language: Language
+    value: Float!
+}

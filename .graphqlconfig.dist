@@ -1,0 +1,16 @@
+{
+    "name": "8lines Ergonode GraphQL Schema",
+    "schemaPath": "schema.graphql",
+    "extensions": {
+        "endpoints": {
+            "Default GraphQL Endpoint": {
+                "url": "https://8lines.ergonode.app/api/graphql/",
+                "headers": {
+                    "user-agent": "JS GraphQL",
+                    "X-API-KEY": ""
+                },
+                "introspect": false
+            }
+        }
+    }
+}

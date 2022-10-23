@@ -1,0 +1,136 @@
+query simpleProduct {
+    productStream {
+        totalCount
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+        edges {
+            node {
+                ...Product
+            }
+        }
+    }
+}
+
+fragment Product on SimpleProduct {
+    __typename
+    editedAt
+    sku
+    attributeList {
+        edges {
+            node {
+                attribute {
+                    code
+                    scope
+                    name {
+                        value
+                        language
+                    }
+                    scope
+                }
+                translations {
+                    ... on DateAttributeValueTranslation {
+                        language
+                        dateValue: value
+                    }
+                    ... on FileAttributeValueTranslation {
+                        language
+                        fileValue: value {
+                            ...Multimedia
+                        }
+                    }
+                    ... on GalleryAttributeValueTranslation {
+                        language
+                        galleryValue: value {
+                            ...Multimedia
+                        }
+                    }
+                    ... on ImageAttributeValueTranslation {
+                        language
+                        imageValue: value {
+                            ...Multimedia
+                        }
+                    }
+                    ... on MultiSelectAttributeValueTranslation {
+                        language
+                        multiSelectValue: value {
+                            ...Option
+                        }
+                    }
+                    ... on NumericAttributeValueTranslation {
+                        language
+                        numericValue: value
+                    }
+                    ... on PriceAttributeValueTranslation {
+                        language
+                        priceValue: value
+                    }
+                    ... on SelectAttributeValueTranslation {
+                        language
+                        selectValue: value {
+                            ...Option
+                        }
+                    }
+                    ... on TextareaAttributeValueTranslation {
+                        language
+                        textAreaValue: value
+                    }
+                    ... on UnitAttributeValueTranslation {
+                        language
+                        unitValue: value
+                    }
+                    ... on ProductRelationAttributeValueTranslation {
+                        language
+                        productRelationValue: value {
+                            sku
+                        }
+                    }
+                    ... on AttributeValueTranslation {
+                        language
+                    }
+                }
+            }
+        }
+    }
+    categoryList {
+        totalCount
+        edges {
+            node {
+                code
+                name {
+                    value
+                    language
+                }
+            }
+        }
+    }
+}
+
+fragment Multimedia on Multimedia {
+    path
+    name
+    extension
+    mime
+    size
+    alt {
+        value
+        language
+    }
+    title {
+        value
+        language
+    }
+    url
+    folder {
+        name
+    }
+}
+
+fragment Option on Option {
+    code
+    name {
+        value
+        language
+    }
+}

@@ -18,9 +18,15 @@ doctrine:
             default:
                 auto_mapping: true
                 mappings:
-                    App:
-                        is_bundle: false
-                        type: annotation
-                        dir: '%kernel.project_dir%/src/Entity'
-                        prefix: 'App\Entity'
-                        alias: App
+#                    ProductDomain:
+#                        is_bundle: false
+#                        type: annotation
+#                        dir: '%kernel.project_dir%/src/Offer/Domain'
+#                        prefix: 'App\Product\Domain'
+#                        alias: ProductDomain
+#                    SyliusProductClothes:
+#                        is_bundle: false
+#                        type: annotation
+#                        dir: '%kernel.project_dir%/src/Offer/Infrastructure/Sylius/Clothes/Entity'
+#                        prefix: 'App\Product\Infrastructure\Sylius\Clothes\Entity'
+#                        alias: SyliusProductClothes

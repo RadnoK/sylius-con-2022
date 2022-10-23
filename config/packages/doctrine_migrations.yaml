@@ -3,4 +3,4 @@ doctrine_migrations:
         table_storage:
             table_name: sylius_migrations
     migrations_paths:
-        'App\Migrations': "%kernel.project_dir%/src/Migrations"
+        'App\Offer\Infrastructure\Doctrine\Migrations': "%kernel.project_dir%/src/Offer/Infrastructure/Doctrine/Migrations"
