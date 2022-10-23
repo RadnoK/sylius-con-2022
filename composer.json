@@ -30,7 +30,8 @@
         "sylius/sylius": "^1.12@dev",
         "symfony/dotenv": "^5.4",
         "symfony/flex": "^2.1",
-        "symfony/http-client": "^5.4"
+        "symfony/http-client": "^5.4",
+        "symfony/property-info": "^5.4"
     },
     "require-dev": {
         "behat/behat": "^3.7",

@@ -10,6 +10,8 @@ final class ProductStream
 {
     // TODO other parameters like totalCount, pageInfo
 
-    /** @var Edge[] */
+    /**
+     * @var array<Edge[]>
+     */
     public array $edges;
 }

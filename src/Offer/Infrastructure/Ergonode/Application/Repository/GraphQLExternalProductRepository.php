@@ -9,6 +9,7 @@ use App\Offer\Application\View\ExternalProductsView;
 use App\Offer\Application\View\ExternalProductView;
 use App\Offer\Infrastructure\Ergonode\SDK\GraphQL\Client\GraphQLClient;
 use App\Offer\Infrastructure\Ergonode\SDK\GraphQL\Model\SimpleProductQuery;
+use App\Offer\Infrastructure\Ergonode\SDK\GraphQL\Model\SimpleProductQuery\Data\ProductStream\Edge;
 
 final class GraphQLExternalProductRepository implements ExternalProductRepository
 {
@@ -24,17 +25,19 @@ final class GraphQLExternalProductRepository implements ExternalProductRepositor
             queryFilePath: __DIR__ . '/../../SDK/GraphQL/Query/simple_product_query.graphql',
             resultType: SimpleProductQuery::class,
         );
+        dump($products);
 
         return new ExternalProductsView(...$this->prepareProducts($products->data->productStream->edges));
     }
 
     /**
-     * @return iterable|ExternalProductView[]
+     * @param Edge[] $edges
+     * @return ExternalProductView[]
      */
     private function prepareProducts(iterable $edges): iterable
     {
         foreach ($edges as $edge) {
-            yield new ExternalProductView($edge['node']['sku']);
+            yield new ExternalProductView($edge->node->sku['node']['sku']);
         }
     }
 }

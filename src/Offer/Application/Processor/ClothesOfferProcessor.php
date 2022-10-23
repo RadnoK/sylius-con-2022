@@ -4,7 +4,17 @@ declare(strict_types=1);
 
 namespace App\Offer\Application\Processor;
 
-interface ClothesOfferProcessor
+use App\Offer\Application\Creator\ClothesOfferCreator;
+
+final class ClothesOfferProcessor
 {
-    public function create(string $sku, string $size): void;
+    public function __construct(
+        private ClothesOfferCreator $offerCreator,
+    ) { }
+
+    public function process(string $sku, string $size): void
+    {
+        $this->offerCreator->create($sku, $size);
+    }
 }
+

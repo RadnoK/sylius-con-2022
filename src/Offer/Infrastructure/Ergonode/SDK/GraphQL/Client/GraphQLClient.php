@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Offer\Infrastructure\Ergonode\SDK\GraphQL\Client;
 
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
@@ -43,6 +44,13 @@ final class GraphQLClient
             'body' => encode(['query' => read($queryFilePath)]),
         ]);
 
-        return $this->serializer->deserialize($response->getContent(), $resultType, JsonEncoder::FORMAT);
+        return $this->serializer->deserialize(
+            data: $response->getContent(),
+            type: $resultType,
+            format: JsonEncoder::FORMAT,
+            context: [
+                ArrayDenormalizer::COLLECT_DENORMALIZATION_ERRORS => true,
+            ],
+        );
     }
 }
