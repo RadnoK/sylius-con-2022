@@ -7,33 +7,34 @@ namespace App\Offer\Infrastructure\Ergonode\Application\Repository;
 use App\Offer\Application\Repository\ExternalProductRepository;
 use App\Offer\Application\View\ExternalProductsView;
 use App\Offer\Application\View\ExternalProductView;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use App\Offer\Infrastructure\Ergonode\SDK\GraphQL\Client\GraphQLClient;
+use App\Offer\Infrastructure\Ergonode\SDK\GraphQL\Model\SimpleProductQuery;
 
 final class GraphQLExternalProductRepository implements ExternalProductRepository
 {
-    private const URI = 'https://8lines.ergonode.app/api/graphql/';
-
     public function __construct(
-        private HttpClientInterface $client,
+        private GraphQLClient $client,
     ) { }
 
     public function getAll(): ExternalProductsView
     {
-        $json = json_encode(['query' => '']);
-
-        $response = $this->client->request('POST', self::URI, [
-            'headers' => [
-                'X-API-KEY' => '9c5404f52875bbc52b1debe722d9f19ce3e036b9',
-                'Content-Type' => 'application/json',
-            ],
-            'body' => $json,
-        ]);
-
-        dump($response->getContent());
-        // TODO fetch data from Ergonode API
-        return new ExternalProductsView(
-            new ExternalProductView('adidas-airmax-1'),
-            new ExternalProductView('nike-puma-1'),
+        /** @var SimpleProductQuery $products */
+        $products = $this->client->query(
+            // TODO: Optimize query for selecting just SKUs from the API first, processing single product is later
+            queryFilePath: __DIR__ . '/../../SDK/GraphQL/Query/simple_product_query.graphql',
+            resultType: SimpleProductQuery::class,
         );
+
+        return new ExternalProductsView(...$this->prepareProducts($products->data->productStream->edges));
+    }
+
+    /**
+     * @return iterable|ExternalProductView[]
+     */
+    private function prepareProducts(iterable $edges): iterable
+    {
+        foreach ($edges as $edge) {
+            yield new ExternalProductView($edge['node']['sku']);
+        }
     }
 }
