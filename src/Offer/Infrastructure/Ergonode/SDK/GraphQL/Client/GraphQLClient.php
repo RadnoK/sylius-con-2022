@@ -32,7 +32,7 @@ final class GraphQLClient
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function query(string $queryFilePath, string $resultType): mixed
+    public function query(string $queryFilePath, string $resultType, array $parameters): mixed
     {
         Assert::notEmpty($queryFilePath);
 

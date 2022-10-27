@@ -25,6 +25,7 @@
     ],
     "require": {
         "php": "^8.0",
+        "aeon-php/symfony-bundle": "1.x-dev",
         "azjezz/psl": "^2.0",
         "sylius/paypal-plugin": "^1.2.1",
         "sylius/sylius": "^1.12@dev",
@@ -95,7 +96,8 @@
             "src/Kernel.php"
         ]
     },
-    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "prefer-stable": false,
     "scripts": {
         "post-install-cmd": [
             "@auto-scripts"

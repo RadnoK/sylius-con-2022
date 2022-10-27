@@ -32,6 +32,10 @@ services:
 
     # Controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Offer\UserInterface\API\Controller\:
-        resource: '../src/Offer/UserInterface/API/Controller'
+    App\Offer\UserInterface\Synchronization\API\Controller\:
+        resource: '../src/Offer/UserInterface/Synchronization/API/Controller'
         tags: ['controller.service_arguments']
+
+    App\Offer\UserInterface\Visualization\API\Controller\:
+        resource: '../src/Offer/UserInterface/Visualization/API/Controller'
+        tags: [ 'controller.service_arguments' ]
