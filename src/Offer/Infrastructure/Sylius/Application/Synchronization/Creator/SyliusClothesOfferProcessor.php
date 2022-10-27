@@ -10,6 +10,6 @@ final class SyliusClothesOfferProcessor implements ClothesOfferCreator
 {
     public function create(string $sku, string $size): void
     {
-        dump(self::class);
+        throw new \Exception('To be implemented');
     }
 }

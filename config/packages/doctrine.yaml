@@ -18,9 +18,9 @@ doctrine:
             default:
                 auto_mapping: true
                 mappings:
-                    OfferDomainVisualization:
+                    OfferInfrastructureDoctrineVisualization:
                         is_bundle: false
                         type: annotation
-                        dir: '%kernel.project_dir%/src/Offer/Domain/Visualization/Entity/'
-                        prefix: 'App\Offer\Domain\Visualization\Entity'
-                        alias: OfferDomainVisualization
+                        dir: '%kernel.project_dir%/src/Offer/Infrastructure/Doctrine/Domain/Visualization/Entity/'
+                        prefix: 'App\Offer\Infrastructure\Doctrine\Domain\Visualization\Entity'
+                        alias: OfferInfrastructureDoctrineVisualization

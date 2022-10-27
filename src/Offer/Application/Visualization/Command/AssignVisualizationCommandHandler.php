@@ -21,13 +21,15 @@ final class AssignVisualizationCommandHandler
 
     public function __invoke(AssignVisualizationCommand $command): void
     {
-        $product = $this->productRepository->get($command->productId);
+        $product = $this->productRepository->get($command->sku);
 
-        $this->visualizations->add(Visualization::create(
-            $command->visualizationId,
-            $command->visualizationToken,
-            $product->id,
-            $this->calendar->now()->toDateTimeImmutable(),
-        ));
+        $this->visualizations->add(
+            Visualization::create(
+                $command->visualizationId,
+                $command->visualizationToken,
+                $product->id,
+                $this->calendar->now()->toDateTimeImmutable(),
+            )
+        );
     }
 }
